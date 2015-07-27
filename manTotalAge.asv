@@ -1,0 +1,25 @@
+load '
+A.x25=cellfun(@(x) x(6:7),A.x5,'uniformoutput', false);
+C=grpstats(A,{'x25','x2', 'x16'},'mean','DataVars','x8');
+% C(:,'GroupCount') = [];
+C.Properties.ObsNames=[];
+C.Properties.VarNames{1} = 'Date';
+C.Properties.VarNames{2} = 'District';
+C.Properties.VarNames{3} = 'Age';
+C.Properties.VarNames{4} = 'NumTrans';
+C.Properties.VarNames{5} = 'Mean';
+D=grpstats(C,{'Date', 'Age'},{'mean','sum'},'DataVars',{'Mean','NumTrans'});
+D(:,{'GroupCount','mean_NumTrans','sum_Mean'}) = [];
+% D(:,'GroupCount') = [];
+D.Properties.ObsNames=[];
+D.Properties.VarNames{2} = 'Age';
+D.Properties.VarNames{3} = 'Mean';
+D.Properties.VarNames{4} = 'NumTrans';
+D.District=zeros(size(D,1),1);
+D = sortrows(D,'Date','ascend');
+C=[C;D];
+C = sortrows(C,'Date','ascend');
+% clear A B D
+C = sortrows(C,'Date','ascend');
+export(C,'xlsfile','ManTotalAge1');
+clc

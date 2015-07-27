@@ -1,6 +1,6 @@
 delete Total.xls
 clear all;
-xfile=dir('*.xls');
+xfile=dir('Input\*.xls');
 xfile={xfile.name};
 HousePrice=struct();
 A=dataset('xlsfile', xfile{1});
@@ -14,15 +14,14 @@ for k=2:length(xfile)
 end
 export(A,'xlsfile','Total');
 A.x25=cellfun(@(x) x(6:7),A.x5,'uniformoutput', false);
-C=grpstats(A,{'x25','x2', 'x16'},'mean','DataVars','x8');
+C=grpstats(A,{'x25','x2'},'mean','DataVars','x8');
 % C(:,'GroupCount') = [];
 C.Properties.ObsNames=[];
 C.Properties.VarNames{1} = 'Date';
 C.Properties.VarNames{2} = 'District';
-C.Properties.VarNames{3} = 'Age';
-C.Properties.VarNames{4} = 'NumTrans';
-C.Properties.VarNames{5} = 'Mean';
-D=grpstats(C,{'Date', 'A,{'mean','sum'},'DataVars',{'Mean','NumTrans'});
+C.Properties.VarNames{3} = 'NumTrans';
+C.Properties.VarNames{4} = 'Mean';
+D=grpstats(C,'Date',{'mean','sum'},'DataVars',{'Mean','NumTrans'});
 D(:,{'GroupCount','mean_NumTrans','sum_Mean'}) = [];
 % D(:,'GroupCount') = [];
 D.Properties.ObsNames=[];
@@ -34,6 +33,7 @@ C=[C;D];
 C = sortrows(C,'Date','ascend');
 clear A B D
 C = sortrows(C,'Date','ascend');
+export(C,'xlsfile','Output/ManTotalMonthly1');
 for i=0:22
     P=C.Mean(C.District==i);
     if length(P)==1
@@ -50,4 +50,4 @@ for i=0:22
     HousePrice.(['District' num2str(i)]).Pgrowth=Pgrowth;
     HousePrice.(['District' num2str(i)]).Stat=Stat;
 end
-
+clc
