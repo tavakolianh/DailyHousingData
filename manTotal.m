@@ -1,3 +1,4 @@
+delete Output/ManTotal1.xls
 clear all
 load 'Output\Total.mat';
 A.x24=cellfun(@(x) x(6:end),A.x5,'uniformoutput', false);

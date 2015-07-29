@@ -1,4 +1,4 @@
-
+delete Output/ManTotalAge1.xls
 clear all
 load 'Output\Total.mat';
 A.x25=cellfun(@(x) x(6:7),A.x5,'uniformoutput', false);
